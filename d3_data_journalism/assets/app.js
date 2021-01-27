@@ -1,5 +1,3 @@
-//CODE HERE
-
 // Define SVG area dimensions
 var svgWidth = 960;
 var svgHeight = 660;
@@ -14,52 +12,64 @@ var svg = d3
 // Append a group to the SVG area
 var chartGroup = svg.append("g");
 
-// Load data from hours-of-tv-watched.csv
-d3.csv("./data.csv").then(function(FUNCTIONNname) {
+// Load data from data.csv
+d3.csv(".assets/data.csv").then(function(journalismData) {
 
-  // Print the tvData
-  // What type of data structure is tvData?
+  // Print the Data
   console.log(journalismData);
 
-//   const bubble = svg.append("g")
-//   .attr("stroke-width", 1)
-// .selectAll("circle")
-// .data(nodes)
-// .join("circle")
-//   .attr("opacity", 0.75)
-//   .attr("cx", d => x(d.birthRate))
-//   .attr("cy", d => y(d.deathRate))
-//   .attr("r",  d => r(d.population))
-//   .attr("stroke", d => color(d.population))
-//   .attr("fill",   d => color(d.population))
-// bubble.append("title")
-//   .text(tooltip)
+    // parse data
+    journalismData.forEach(function(data) {
+        data.poverty = +data.poverty;
+        data.healthcarelow = +data.healthcarelow;
+      });
+    
+      // create scales
+      var xPoverty = d3.scaleLinear()
+        .domain(d3.extent(journalismData, d => d.poverty))
+        .range([0, width]);
+    
+      var yhealthcareLow = d3.scaleLinear()
+        .domain([0, d3.max(journalismData, d => d.healthcareLow)])
+        .range([height, 0]);
+    
 
-// //Create the ISO country codes as text elements
-// const label = svg.append("g")
-//   .attr("font-family", "Yanone Kaffeesatz")
-//   .attr("font-weight", 700)
-//   .attr("text-anchor", "middle")
-// .selectAll("text")
-// .data(data)
-// .join("text")
-//   .attr("id", "isoCode")
-//   .attr("opacity", 0)
-//   .attr("dy", "0.35em")
-//   .attr("x", d => d.x0)
-//   .attr("y", d => d.y0)
-//   .attr("font-size", d => r(d.population)*1.5)
-//   .attr("fill", d => color(d.population))
-//   .text(d => d.code);
-// //add a title to act as a mousover tooltip, function tooltip() defined in a cell bleow
-// label.append("title")
-//   .text(tooltip);
+   // create axes
+   var xAxis = d3.axisBottom(xPoverty);
+   var yAxis = d3.axisLeft(yhealthcareLow).ticks(51);
+ 
+// append axes
+chartGroup.append("g")
+.attr("transform", `translate(0, ${height})`)
+.call(xAxis);
 
-// const legend1 = svg.append("g")
-//  .attr("transform", `translate(${width - 340} ${height - 90})`)
-//  .append(() => legend({
-//     color: color, // <= this is the scale "color" being passed into field "color"
-//     title: "Population (in millions)",
-//     ticks: 4,
-//     tickFormat: d => d3.format(",.0f")(d / 1000000)
-//   }))
+chartGroup.append("g")
+.call(yAxis);
+
+// // line generator
+// var line = d3.line()
+// .x(d => xTimeScale(d.date))
+// .y(d => yLinearScale(d.medals));
+
+// // append line
+// chartGroup.append("path")
+// .data([medalData])
+// .attr("d", line)
+// .attr("fill", "none")
+// .attr("stroke", "red");
+
+// append circles
+var circlesGroup = chartGroup.selectAll("circle")
+.data(journalismData)
+.enter()
+.append("circle")
+.attr("cx", d => xPoverty(d.date))
+.attr("cy", d => yhealthcareLow(d.healthcareLow))
+.attr("r", "10")
+.attr("fill", "blue")
+.attr("text", journalismData, d => d.abbr);
+// .attr("stroke-width", "1")
+// .attr("stroke", "black");
+
+ 
+
