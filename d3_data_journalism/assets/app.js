@@ -37,6 +37,13 @@ d3.csv(".assets/data.csv").then(function(journalismData) {
    // create axes
    var xAxis = d3.axisBottom(xPoverty);
    var yAxis = d3.axisLeft(yhealthcareLow).ticks(51);
+
+// // create path
+// chartGroup.append("path")
+// .attr("d", line(journalismData))
+// .attr("fill", "none")
+// .attr("stroke", "green");
+
  
 // append axes
 chartGroup.append("g")
@@ -68,8 +75,8 @@ var circlesGroup = chartGroup.selectAll("circle")
 .attr("r", "10")
 .attr("fill", "blue")
 .attr("text", journalismData(d => d.abbr));
-// .attr("stroke-width", "1")
-// .attr("stroke", "black");
+.attr("fill", "none")
+.attr("stroke", "blue");
 
  
 
