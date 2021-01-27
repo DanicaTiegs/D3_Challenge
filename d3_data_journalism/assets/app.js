@@ -4,7 +4,7 @@ var svgHeight = 660;
 
 // Select body, append SVG area to it, and set the dimensions
 var svg = d3
-  .select("body")
+  .select(".scatter")
   .append("svg")
   .attr("height", svgHeight)
   .attr("width", svgWidth);
@@ -67,7 +67,7 @@ var circlesGroup = chartGroup.selectAll("circle")
 .attr("cy", d => yhealthcareLow(d.healthcareLow))
 .attr("r", "10")
 .attr("fill", "blue")
-.attr("text", journalismData, d => d.abbr);
+.attr("text", journalismData(d => d.abbr));
 // .attr("stroke-width", "1")
 // .attr("stroke", "black");
 
