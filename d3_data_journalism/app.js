@@ -13,7 +13,7 @@ var svg = d3
 var chartGroup = svg.append("g");
 
 // Load data from data.csv
-d3.csv(".assets/data.csv").then(function(journalismData) {
+d3.csv("assets/data.csv").then(function(journalismData) {
 
   // Print the Data
   console.log(journalismData);
