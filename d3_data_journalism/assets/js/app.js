@@ -82,7 +82,7 @@ var textGroup = chartGroup.selectAll("text.abbr")
   var toolTip = d3.tip()
     .attr("class","tooltip")
     .html( function(d){
-      return (`<strong>Poverty: ${d.poverty}<strong><hr>${d.state}`);
+      return (`<strong>Poverty: ${d.poverty}<strong><hr>${d.state}:<hr><strong>Income: ${d.income}<strong>`);
     })
 
     circlesGroup.call(toolTip)
